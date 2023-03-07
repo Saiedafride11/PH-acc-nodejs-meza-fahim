@@ -45,7 +45,6 @@ for(let i = 0; i < userIds.length; i++){
       myPromise2.then( user => {
             userData.push(user)
       })
-      
 }
 
 // console.log("userData", userData)
