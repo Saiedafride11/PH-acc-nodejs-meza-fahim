@@ -3,13 +3,22 @@ const Product = require('../models/Product')
 
 exports.getProductsService = async (filters, queries) => {
     // const products = await Product.find({})
+
+    //http://localhost:5000/api/v1/product     **************************************************
     // const products = await Product.find({}).sort({price: 1})
     // const products = await Product.find({}).sort('quantity price')
     // const products = await Product.find(query)
     // const products = await Product.find({}).sort(queries.sortBy)
     // const products = await Product.find({}).sort(queries.sortBy).select('name description')
     // const products = await Product.find({}).sort(queries.sortBy).select(queries.fields)
-    // const products = await Product.find({price: {$gt: 50}}).select(queries.fields).sort(queries.sortBy)
+
+    //http://localhost:5000/api/v1/product?price=12
+    //http://localhost:5000/api/v1/product?price[gt]=12
+    // http://localhost:5000/api/v1/product?sort=price,quantity&fields=name,description      **************************************************
+    // const products = await Product.find(filters)
+                        // .select(queries.fields)
+                        // .sort(queries.sortBy)
+    // return products 
 
     const products = await Product.find(filters)
                     .skip(queries.skip)

@@ -10,14 +10,22 @@ exports.getProducts = async (req, res, next) => {
 
         // console.log(req.query);
 
-        const filters = {...req.query};
+        let filters = {...req.query}; // copy kore nibo, jeno orginal query delete na hoi, just line 17 te delete hoi
 
         // sort > page > limit > exclude
         const excludeFields = ['sort', 'page', 'limit'];
         excludeFields.forEach(field => delete filters[field]);
 
+        // http://localhost:5000/api/v1/product?status=in-stock&page=3&limit=3&sort=1
         // console.log("orginal object", req.query);
         // console.log("query object", filters);
+
+
+        // gt, lt, gte, lte
+        //http://localhost:5000/api/v1/product?price[gt]=12
+        let filtersString = JSON.stringify(filters)
+        filtersString= filtersString.replace(/\b(gt|gte|lt|lte)\b/g , match=> `$${match}`)
+        filters = JSON.parse(filtersString)
 
 
         const queries = {};
@@ -42,6 +50,7 @@ exports.getProducts = async (req, res, next) => {
             // page - 2 > 11 - 20
             // page - 3 > 21 - 30 ----- skip 1 - 20 > 3 - 1
 
+            //http://localhost:5000/api/v1/product?page=1&limit=2
             const { page = 1, limit = 10} = req.query;
             const skip = ( page - 1) * parseInt(limit);
             queries.skip = skip;
