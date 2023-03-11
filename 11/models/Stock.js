@@ -44,7 +44,26 @@ const stockSchema = mongoose.Schema({
   quantity: {
     type: Number,
     required: true,
-    min: [0, "Product quantity can't be negative"]
+    min: [0, "Product quantity can't be negative"],
+    validate: {
+      validator: (value) => {
+        const isInteger = Number.isInteger(value);
+        if (isInteger) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    },
+    message: "Qunatity must be an integer"
+  },
+  status: {
+    type: String,
+    required: true,
+    enum: {
+      values: ["in-stock", "out-of-stock", "discontinued"],
+      message: " status can't be {VALUE} "
+    },
   },
   category: {
     type: String,
@@ -60,14 +79,6 @@ const stockSchema = mongoose.Schema({
       ref: "Brand",
       required: true,
     }
-  },
-  status: {
-    type: String,
-    required: true,
-    enum: {
-      values: ["in-stock", "out-of-stock", "discontinued"],
-      message: " status can't be {VALUE} "
-    },
   },
   store: {
     name: {
@@ -107,6 +118,19 @@ const stockSchema = mongoose.Schema({
 }, {
   timestamps: true,
 })
+
+
+stockSchema.pre('save',function(next){
+  
+  //this -> 
+   console.log(' Before saving data');
+     if (this.quantity == 0) {
+      this.status = 'out-of-stock'
+    }
+
+   next()
+ })
+
 
 
 const Stock = mongoose.model('Stock', stockSchema)

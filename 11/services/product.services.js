@@ -45,13 +45,12 @@ exports.createProductService = async (data) => {
 };
 
 exports.updateProductByIdService = async (productId, data) => {
-  const result = await Product.updateOne(
-    { _id: productId },
-    { $inc: data },
-    {
-      runValidators: true,
-    }
-  );
+  const result = await Tour.updateOne(
+            { _id: tourId },
+            { $set: data },
+            // { $inc: data }, // like price barabo/increment korbo
+            { runValidators: true}
+      )
 
   // const product = await Product.findById(productId);
   // const result = await product.set(data).save();
@@ -59,10 +58,29 @@ exports.updateProductByIdService = async (productId, data) => {
 };
 
 exports.bulkUpdateProductService = async (data) => {
+  // {
+    //       "ids": ["640c03d44b23a8fe35e672b6", "640c03d14b23a8fe35e672b4"],
+    //       "data": {"price": "$16 / Per Person"}
+    //   }
+
   // console.log(data.ids,data.data)
   // const result = await Product.updateMany({ _id: data.ids }, data.data, {
   //     runValidators: true
   // });
+
+
+    //   {
+    //       "ids": [
+    //           {
+    //               "id": "640c03d44b23a8fe35e672b6",
+    //               "data": {"price": "$996 / Per Person"}
+    //           },
+    //           {
+    //               "id": "640c03d14b23a8fe35e672b4",
+    //               "data": {"price": "$896 / Per Person"}
+    //           }
+    //       ]
+    //   }
 
   const products = [];
 

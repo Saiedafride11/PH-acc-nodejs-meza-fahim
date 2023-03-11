@@ -1,4 +1,4 @@
-const {
+   const {
   getProductsService,
   createProductService,
   updateProductByIdService,
@@ -19,7 +19,7 @@ exports.getProducts = async (req, res, next) => {
         let filters = {...req.query}; // copy kore nibo, jeno orginal query delete na hoi, just line 17 te delete hoi
 
         // sort > page > limit > exclude
-        const excludeFields = ['sort', 'page', 'limit'];
+        const excludeFields = ['sort', 'fields', 'page', 'limit'];
         excludeFields.forEach(field => delete filters[field]);
 
         // http://localhost:5000/api/v1/product?status=in-stock&page=3&limit=3&sort=1
